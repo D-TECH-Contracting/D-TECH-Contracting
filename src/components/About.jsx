@@ -6,6 +6,7 @@ export default function About() {
       name: 'Krish',
       role: 'CEO',
       description: 'Visionary leader with 10+ years in tech industry, driving innovation and strategic growth.',
+      image: '/D-TECH-Contracting/Images/Krishav.jpg',
       initials: 'K',
       color: 'from-blue-500 to-cyan-500'
     },
@@ -13,6 +14,7 @@ export default function About() {
       name: 'Eshaan',
       role: 'IT Specialist',
       description: 'Expert in system architecture and infrastructure, ensuring robust and scalable solutions.',
+      image: '/D-TECH-Contracting/Images/Eshaan.jpg',
       initials: 'E',
       color: 'from-green-500 to-emerald-500'
     },
@@ -20,6 +22,7 @@ export default function About() {
       name: 'Zora',
       role: 'Marketing Director',
       description: 'Creative strategist focused on building meaningful connections between brands and customers.',
+      image: '/D-TECH-Contracting/Images/Zora.jpg',
       initials: 'Z',
       color: 'from-pink-500 to-rose-500'
     },
@@ -27,6 +30,7 @@ export default function About() {
       name: 'Aryan',
       role: 'Finance Manager',
       description: 'Financial expert ensuring transparent pricing and sustainable business growth.',
+      image: '/D-TECH-Contracting/Images/Aryan.jpg',
       initials: 'A',
       color: 'from-orange-500 to-amber-500'
     },
@@ -34,6 +38,7 @@ export default function About() {
       name: 'Ayaan',
       role: 'HR & IT Specialist',
       description: 'Manages human resources and provides specialized IT support, ensuring smooth operations and employee satisfaction.',
+      image: '/D-TECH-Contracting/Images/Ayaan.jpg',
       initials: 'AY',
       color: 'from-red-500 to-pink-500'
     },
@@ -41,6 +46,7 @@ export default function About() {
       name: 'Siddharth Parreddi',
       role: 'R&D Lead',
       description: 'Innovation driver researching cutting-edge technologies to keep D-TECH ahead of the curve.',
+      image: '/D-TECH-Contracting/Images/Sid.jpg',
       initials: 'SP',
       color: 'from-purple-500 to-violet-500'
     }
@@ -139,8 +145,23 @@ export default function About() {
                 style={{animationDelay: `${0.1 * index}s`}}
               >
                 {/* Avatar */}
-                <div className={`w-24 h-24 rounded-3xl bg-gradient-to-br ${member.color} flex items-center justify-center mx-auto mb-6 text-white font-display text-xl shadow-lg`}>
-                  {member.initials}
+                <div className="w-24 h-24 rounded-3xl mx-auto mb-6 shadow-lg overflow-hidden">
+                  <img 
+                    src={member.image} 
+                    alt={`${member.name} - ${member.role}`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // Fallback to colored initials if image fails to load
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  <div 
+                    className={`w-full h-full bg-gradient-to-br ${member.color} flex items-center justify-center text-white font-display text-xl`}
+                    style={{display: 'none'}}
+                  >
+                    {member.initials}
+                  </div>
                 </div>
                 
                 {/* Member Info */}
