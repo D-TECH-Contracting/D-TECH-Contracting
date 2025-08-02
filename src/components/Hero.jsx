@@ -14,12 +14,6 @@ export default function Hero() {
       
       <div className="apple-container relative z-10">
         <div className="text-center max-w-5xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary/10 border border-primary/20 mb-8 animate-fade-in-up glass">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Trusted by 50+ businesses nationwide</span>
-          </div>
-
           {/* Main Headline */}
           <h1 className="font-display text-responsive-xl mb-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
             <span className="text-foreground">Clean IT Solutions.</span>
