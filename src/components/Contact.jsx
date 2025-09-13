@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Mail, Phone, MapPin, Send, CheckCircle, Rocket } from 'lucide-react'
+import { Mail, Phone, MapPin, Send, CheckCircle, Rocket, Loader2 } from 'lucide-react'
+import emailjs from '@emailjs/browser'
+import { EMAILJS_CONFIG } from '@/config/emailjs'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -13,26 +15,99 @@ export default function Contact() {
     message: ''
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
+    console.log('Input change:', e.target.name, e.target.value) // Debug log
+    console.log('Event type:', e.type) // Debug log
+    console.log('Target:', e.target) // Debug log
+    setFormData(prevData => ({
+      ...prevData,
       [e.target.name]: e.target.value
-    })
+    }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Simulate form submission
-    setIsSubmitted(true)
-    setTimeout(() => setIsSubmitted(false), 3000)
+    setIsLoading(true)
+    setError('')
+    
+    // Check if EmailJS is properly configured
+    if (EMAILJS_CONFIG.publicKey === 'YOUR_PUBLIC_KEY_HERE') {
+      // Fallback: Use mailto link
+      const subject = `Contact Form Submission from ${formData.name}`
+      const body = `Name: ${formData.name}
+Email: ${formData.email}
+Company: ${formData.company || 'Not provided'}
+Service: ${formData.service || 'Not specified'}
+
+Message:
+${formData.message}`
+      
+      const mailtoLink = `mailto:${EMAILJS_CONFIG.recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      window.open(mailtoLink)
+      
+      // Show success message
+      setIsSubmitted(true)
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        service: '',
+        message: ''
+      })
+      
+      setTimeout(() => setIsSubmitted(false), 5000)
+      setIsLoading(false)
+      return
+    }
+    
+    try {
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        company: formData.company || 'Not provided',
+        service: formData.service || 'Not specified',
+        message: formData.message,
+        to_email: EMAILJS_CONFIG.recipientEmail
+      }
+      
+      // Send email
+      await emailjs.send(
+        EMAILJS_CONFIG.serviceId, 
+        EMAILJS_CONFIG.templateId, 
+        templateParams, 
+        EMAILJS_CONFIG.publicKey
+      )
+      
+      // Success
+      setIsSubmitted(true)
+      setFormData({
+        name: '',
+        email: '',
+        company: '',
+        service: '',
+        message: ''
+      })
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000)
+      
+    } catch (error) {
+      console.error('Email sending failed:', error)
+      setError('Failed to send message. Please try again or contact us directly.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const contactInfo = [
     {
       icon: Mail,
       title: 'Email Us',
-      content: 'hello@d-tech.com',
+      content: 'dtechcontracts45@gmail.com',
       description: 'Send us an email anytime',
       color: 'from-blue-500 to-cyan-500'
     },
@@ -95,7 +170,12 @@ export default function Contact() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" style={{ pointerEvents: 'auto' }}>
+                  {error && (
+                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm">
+                      {error}
+                    </div>
+                  )}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
@@ -110,6 +190,8 @@ export default function Contact() {
                         onChange={handleInputChange}
                         className="apple-focus"
                         placeholder="John Doe"
+                        autoComplete="name"
+                        style={{ pointerEvents: 'auto', cursor: 'text' }}
                       />
                     </div>
                     <div>
@@ -125,6 +207,8 @@ export default function Contact() {
                         onChange={handleInputChange}
                         className="apple-focus"
                         placeholder="john@company.com"
+                        autoComplete="email"
+                        style={{ pointerEvents: 'auto', cursor: 'text' }}
                       />
                     </div>
                   </div>
@@ -142,6 +226,8 @@ export default function Contact() {
                         onChange={handleInputChange}
                         className="apple-focus"
                         placeholder="Your Company"
+                        autoComplete="organization"
+                        style={{ pointerEvents: 'auto', cursor: 'text' }}
                       />
                     </div>
                     <div>
@@ -154,6 +240,7 @@ export default function Contact() {
                         value={formData.service}
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground apple-focus"
+                        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
                       >
                         <option value="">Select a service</option>
                         {services.map((service) => (
@@ -177,13 +264,40 @@ export default function Contact() {
                       onChange={handleInputChange}
                       className="apple-focus min-h-32"
                       placeholder="Tell us about your project, goals, and any specific requirements..."
+                      style={{ pointerEvents: 'auto', cursor: 'text' }}
                     />
                   </div>
                   
-                  <Button type="submit" className="apple-button w-full group">
-                    Send Message
-                    <Send className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-                  </Button>
+                  <div className="space-y-4">
+                    <Button 
+                      type="button" 
+                      className="apple-button-secondary w-full" 
+                      onClick={() => {
+                        console.log('Test button clicked')
+                        console.log('Current form data:', formData)
+                        setFormData(prev => ({ ...prev, name: 'Test Name' }))
+                      }}
+                    >
+                      Test Form (Click to test)
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      className="apple-button w-full group" 
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <Send className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </form>
               )}
             </div>
