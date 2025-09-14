@@ -11,14 +11,6 @@ export default function About() {
       color: 'from-blue-500 to-cyan-500'
     },
     {
-      name: 'Eshaan',
-      role: 'IT Specialist',
-      description: 'Expert in system architecture and infrastructure, ensuring robust and scalable solutions.',
-      image: '/D-TECH-Contracting/Images/Eshaan.jpg',
-      initials: 'E',
-      color: 'from-green-500 to-emerald-500'
-    },
-    {
       name: 'Zora',
       role: 'Marketing Director',
       description: 'Creative strategist focused on building meaningful connections between brands and customers.',
