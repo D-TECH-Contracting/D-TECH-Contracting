@@ -11,7 +11,6 @@ export default function Contact() {
     name: '',
     email: '',
     company: '',
-    service: '',
     message: ''
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -40,7 +39,6 @@ export default function Contact() {
       const body = `Name: ${formData.name}
 Email: ${formData.email}
 Company: ${formData.company || 'Not provided'}
-Service: ${formData.service || 'Not specified'}
 
 Message:
 ${formData.message}`
@@ -54,7 +52,6 @@ ${formData.message}`
         name: '',
         email: '',
         company: '',
-        service: '',
         message: ''
       })
       
@@ -69,7 +66,6 @@ ${formData.message}`
         from_name: formData.name,
         from_email: formData.email,
         company: formData.company || 'Not provided',
-        service: formData.service || 'Not specified',
         message: formData.message,
         to_email: EMAILJS_CONFIG.recipientEmail
       }
@@ -88,7 +84,6 @@ ${formData.message}`
         name: '',
         email: '',
         company: '',
-        service: '',
         message: ''
       })
       
@@ -127,14 +122,6 @@ ${formData.message}`
     }
   ]
 
-  const services = [
-    'UX Web Design',
-    'Remote IT Help',
-    'Cybersecurity Setup',
-    'Graphic Design',
-    'Custom Solution',
-    'Not Sure Yet'
-  ]
 
   return (
     <section id="contact" className="apple-section bg-gradient-to-br from-muted/30 via-background to-muted/20">
@@ -213,43 +200,21 @@ ${formData.message}`
                     </div>
                   </div>
                   
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
-                        Company Name
-                      </label>
-                      <Input
-                        id="company"
-                        name="company"
-                        type="text"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="apple-focus"
-                        placeholder="Your Company"
-                        autoComplete="organization"
-                        style={{ pointerEvents: 'auto', cursor: 'text' }}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="service" className="block text-sm font-medium text-foreground mb-2">
-                        Service Interested In
-                      </label>
-                      <select
-                        id="service"
-                        name="service"
-                        value={formData.service}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground apple-focus"
-                        style={{ pointerEvents: 'auto', cursor: 'pointer' }}
-                      >
-                        <option value="">Select a service</option>
-                        {services.map((service) => (
-                          <option key={service} value={service}>
-                            {service}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
+                      Company Name
+                    </label>
+                    <Input
+                      id="company"
+                      name="company"
+                      type="text"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      className="apple-focus"
+                      placeholder="Your Company"
+                      autoComplete="organization"
+                      style={{ pointerEvents: 'auto', cursor: 'text' }}
+                    />
                   </div>
                   
                   <div>
