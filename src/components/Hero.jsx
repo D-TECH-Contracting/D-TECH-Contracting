@@ -70,26 +70,6 @@ export default function Hero() {
             </Button>
           </div>
         </div>
-        
-        {/* Stats Section */}
-        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 animate-fade-in-up" style={{animationDelay: '1s'}}>
-          <div className="text-center apple-card glass">
-            <div className="text-4xl md:text-5xl font-display gradient-text mb-3">50+</div>
-            <div className="text-muted-foreground font-body font-medium">Projects Completed</div>
-          </div>
-          <div className="text-center apple-card glass">
-            <div className="text-4xl md:text-5xl font-display gradient-text mb-3">100%</div>
-            <div className="text-muted-foreground font-body font-medium">Client Satisfaction</div>
-          </div>
-          <div className="text-center apple-card glass">
-            <div className="text-4xl md:text-5xl font-display gradient-text mb-3">24/7</div>
-            <div className="text-muted-foreground font-body font-medium">Support Available</div>
-          </div>
-          <div className="text-center apple-card glass">
-            <div className="text-4xl md:text-5xl font-display gradient-text mb-3">5★</div>
-            <div className="text-muted-foreground font-body font-medium">Average Rating</div>
-          </div>
-        </div>
       </div>
     </section>
   )
