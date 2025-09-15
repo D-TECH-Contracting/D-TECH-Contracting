@@ -49,3 +49,4 @@ The form currently uses a mailto fallback that works immediately. To enable Emai
 - Check browser console for any error messages
 - Form inputs should log changes to console
 - All form data should be captured correctly
+

@@ -66,3 +66,4 @@ This message was sent from the D-TECH Contracting website contact form.
 - Check that the email service is properly configured
 - Verify the template variables match exactly
 - Check browser console for any error messages
+

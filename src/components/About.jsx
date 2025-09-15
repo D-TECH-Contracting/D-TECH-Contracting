@@ -5,7 +5,7 @@ export default function About() {
     {
       name: 'Krish',
       role: 'CEO',
-      description: 'Visionary leader with 10+ years in tech industry, driving innovation and strategic growth.',
+      description: 'Visionary leader driving innovation and strategic growth.',
       image: '/D-TECH-Contracting/Images/Krishav.jpg',
       initials: 'K',
       color: 'from-blue-500 to-cyan-500'
