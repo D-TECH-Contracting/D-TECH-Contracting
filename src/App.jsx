@@ -9,6 +9,7 @@ import About from './components/About'
 import Pricing from './components/Pricing'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import Chatbot from './components/Chatbot'
 
 function App() {
   const [darkMode, setDarkMode] = useState(false)
@@ -97,6 +98,9 @@ function App() {
       
       {/* Footer */}
       <Footer />
+      
+      {/* Chatbot */}
+      <Chatbot />
     </div>
   )
 }
